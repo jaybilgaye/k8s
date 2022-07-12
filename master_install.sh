@@ -156,8 +156,9 @@ kubeadm init --kubernetes-version=${KUBE_VERSION} --ignore-preflight-errors=NumC
 mkdir -p ~/.kube
 sudo cp -i /etc/kubernetes/admin.conf ~/.kube/config
 
-### CNI
-kubectl apply -f https://raw.githubusercontent.com/killer-sh/cks-course-environment/master/cluster-setup/calico.yaml
+### Plugin for networking
+
+kubectl apply -f https://raw.githubusercontent.com/jaybilgaye/k8s/main/calico.yaml
 
 
 # etcdctl
@@ -169,5 +170,5 @@ mv ${ETCDCTL_VERSION_FULL}/etcdctl /usr/bin/
 rm -rf ${ETCDCTL_VERSION_FULL} ${ETCDCTL_VERSION_FULL}.tar.gz
 
 echo
-echo "### COMMAND TO ADD A WORKER NODE ###"
+echo "### ISSUE FOLLOWING COMMAND TO ADD A WORKER NODE ###"
 kubeadm token create --print-join-command --ttl 0
