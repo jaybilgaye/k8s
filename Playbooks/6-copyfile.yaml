@@ -1,0 +1,14 @@
+---
+- name: Copy file from local to remote clients
+  hosts: all
+
+  tasks:
+  - name: Copying file
+    become: true
+    copy:
+     src: /tmp/stress.sh
+     dest: /tmp
+     remote_src: yes
+     owner: user1
+     group: user1
+     mode: 0666
