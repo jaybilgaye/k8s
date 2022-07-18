@@ -1,0 +1,98 @@
+[root@ip-172-31-30-184 playbooks]# cat enoftheworld.yaml
+---
+- hosts: all
+  tasks:
+    - name: Wait for the machine to come back online
+      wait_for_connection:
+        connect_timeout: 60
+        sleep: 5
+        delay: 5
+        timeout: 300
+    - name: Print message
+      debug:
+        msg: This is end of the  World, save yourself.
+[root@ip-172-31-30-184 playbooks]# cat helloworld.yaml
+---
+- hosts: all
+  tasks:
+    - name: Print message
+      debug:
+        msg: Hello Ansible World
+[root@ip-172-31-30-184 playbooks]# cat p1.yaml
+---
+- hosts: all
+  tasks:
+
+
+    - name: Reboot the machine
+      shell: "sleep 5 && reboot"
+      ignore_unreachable: yes
+
+#    - name: Wait for the machine to come back online
+#      wait_for_connection:
+#        connect_timeout: 60
+#        sleep: 5
+##        delay: 5
+
+===================================================================
+
+[root@ip-172-31-30-184 playbooks]# cat ping.yaml
+---
+- name: “Check remote clients connectivity status”
+  hosts: all
+
+  tasks:
+    - name: Test connectivity
+      ping:
+[root@ip-172-31-30-184 playbooks]# cat create_user.yaml
+---
+- name: Playbook for creating users
+  hosts: all
+
+  tasks:
+    - name: Create users
+      user:
+       name: user1
+       home: /home/user1
+       shell: /bin/bash
+[root@ip-172-31-30-184 playbooks]# cat changepass.yaml
+---
+- name: Add or update user password
+  hosts: all
+
+  tasks:
+  - name: Change "user1" password
+    user:
+      name: user1
+      update_password: always
+      password: "{{ newpassword|password_hash('sha512') }}"
+[root@ip-172-31-30-184 playbooks]# cat copy.yaml
+---
+- name: Copy file from local to remote clients
+  hosts: all
+
+  tasks:
+  - name: Copying file
+    become: true
+    copy:
+     src: /tmp/stress.sh
+     dest: /tmp
+     remote_src: yes
+     owner: user1
+     group: user1
+     mode: 0666
+[root@ip-172-31-30-184 playbooks]# cat runscript.yaml
+---
+- name: Playbook for shell script
+  hosts: all
+  tasks:
+  - name: Run shell script
+    shell: "sh /tmp/stress.sh"
+    
+    
+==============================================================
+#        timeout: 300
+[root@ip-172-31-30-184 playbooks]#
+
+
+
